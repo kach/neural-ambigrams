@@ -7,10 +7,10 @@ from matplotlib import pyplot as plt
 from mnistmodel import Net
 
 model = Net()
-model.load_state_dict(torch.load('mnist.pt'))
+model.load_state_dict(torch.load('emnist.pt'))
 
 tab = {}
-dig = range(10)
+dig = range(36)
 
 for A in dig:
     for B in dig:
@@ -19,6 +19,7 @@ for A in dig:
 i = 0
 while True:
     i += 1
+    print(i)
     for A in dig:
         for B in dig:
             t = tab[(A, B)]
@@ -36,9 +37,8 @@ while True:
 
             loss = loss_1 + loss_2# + torch.norm(t, p=1) * 0.001
             loss.backward()
-            tab[(A, B)] = t.detach() - t.grad.detach() * 0.01
+            tab[(A, B)] = t.detach() - t.grad.detach() * 0.1
 
             if i % 10 == 0:
-                print(A, B, loss.item())
-                plt.imsave('out/out-%d-%d-N.png' % (A, B), t.detach().tanh().reshape(28, 28).numpy(), cmap='binary')
-                plt.imsave('out/out-%d-%d-S.png' % (A, B), t_2.detach().tanh().reshape(28, 28).numpy(), cmap='binary')
+                print(i, A, B, loss.item())
+                plt.imsave('emout/out-%d-%d.png' % (A, B), t.detach().tanh().reshape(28, 28).numpy().transpose(), cmap='binary')
