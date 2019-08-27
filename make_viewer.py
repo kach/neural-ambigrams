@@ -54,6 +54,6 @@ with open('index.html', 'w') as f:
             if B == -1:
                 f.write('<td>%s</td>' % classes[A])
                 continue
-            f.write('<td><img src="emout/out-%d-%d.png"/></td>' % (A, B))
+            f.write('<td><img src="emout-reg/out-%d-%d.png"/></td>' % (A, B))
         f.write('</tr>')
     f.write('''</table>''')

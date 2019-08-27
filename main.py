@@ -35,10 +35,11 @@ while True:
             guess_2 = model.forward(t_2.tanh())
             loss_2 = F.nll_loss(guess_2, truth_2)
 
-            loss = loss_1 + loss_2# + torch.norm(t, p=1) * 0.001
+            loss = loss_1 + loss_2 + torch.norm(t, p=1) * 0.05
             loss.backward()
             tab[(A, B)] = t.detach() - t.grad.detach() * 0.1
 
-            if i % 10 == 0:
+            if i % 10 == 1:
                 print(i, A, B, loss.item())
-                plt.imsave('emout/out-%d-%d.png' % (A, B), t.detach().tanh().reshape(28, 28).numpy().transpose(), cmap='binary')
+                np.save('emout-reg-hi/out-%d-%d.npz' % (A, B), t.detach().reshape(28, 28).numpy().transpose())
+                plt.imsave('emout-reg-hi/out-%d-%d.png' % (A, B), t.detach().tanh().relu().reshape(28, 28).numpy().transpose(), cmap='binary')

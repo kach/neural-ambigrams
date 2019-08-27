@@ -37,18 +37,20 @@ def test(model, test_loader):
         100. * correct / len(test_loader.dataset)))
 
 def main():
+    # curl https://www.itl.nist.gov/iaui/vip/cs_links/EMNIST/gzip.zip -o ../data/EMNIST/raw/emnist.zip
     train_loader = torch.utils.data.DataLoader(
-        datasets.MNIST('../data', train=True, download=True,
+        datasets.EMNIST('../data', 'balanced', train=True,
                        transform=transforms.Compose([
                            transforms.ToTensor(),
-                           transforms.Normalize((0.1307,), (0.3081,))
+#                          transforms.Normalize((0.1307,), (0.3081,))
                        ])),
         batch_size=300, shuffle=False)
 
     test_loader = torch.utils.data.DataLoader(
-        datasets.MNIST('../data', train=False, transform=transforms.Compose([
+        datasets.EMNIST('../data', 'balanced', train=False,
+                       transform=transforms.Compose([
                            transforms.ToTensor(),
-                           transforms.Normalize((0.1307,), (0.3081,))
+#                          transforms.Normalize((0.1307,), (0.3081,))
                        ])),
         batch_size=500, shuffle=False)
 
@@ -59,8 +61,7 @@ def main():
     for epoch in range(3):
         train(model, train_loader, optimizer, epoch)
         test(model, test_loader)
-
-    torch.save(model.state_dict(), "mnist.pt")
+        torch.save(model.state_dict(), "emnist.pt")
         
 if __name__ == '__main__':
     main()
